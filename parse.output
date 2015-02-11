@@ -1,0 +1,3187 @@
+Terminals unused in grammar
+
+   DIRECTIVE
+   SHEBANG
+
+
+Grammar
+
+    0 $accept: start $end
+
+    1 start: funcdef start
+    2      | line start
+    3      | selection start
+    4      | error
+    5      | /* empty */
+
+    6 funcdef: prototype stmt END
+
+    7 prototype: DEF IDENT LPAREN id_list RPAREN COLON
+
+    8 id_list: id_list COMMA IDENT
+    9        | IDENT
+   10        | /* empty */
+
+   11 opt_parm_list: opt_parm_list COMMA expr
+   12              | expr
+   13              | /* empty */
+
+   14 stmt: line stmt
+   15     | selection stmt
+   16     | loop stmt
+   17     | /* empty */
+
+   18 selection: if_block stmt END
+   19          | if_block stmt else_block stmt END
+
+   20 if_block: IF expr COLON
+
+   21 else_block: ELSE COLON
+
+   22 loop: loop_condition stmt END
+
+   23 loop_condition: WHILE expr COLON
+
+   24 line: IDENT ASSIGN expr
+   25     | COLON COLON IDENT ASSIGN expr
+   26     | VAR IDENT ASSIGN expr
+   27     | IDENT LPAREN opt_parm_list RPAREN
+   28     | IDENT ASSIGN OPEN LPAREN expr RPAREN
+   29     | CLOSE LPAREN expr RPAREN
+   30     | READ LPAREN expr RPAREN
+   31     | PRINT expr
+   32     | PRINTLN expr
+   33     | RETURN expr
+   34     | DEBUG
+   35     | COLON COLON EVAL LPAREN expr RPAREN ASSIGN expr
+   36     | VAR EVAL LPAREN expr RPAREN ASSIGN expr
+   37     | EVAL LPAREN expr RPAREN ASSIGN expr
+
+   38 expr: expr PLUS expr
+   39     | expr MINUS expr
+   40     | expr MULT expr
+   41     | expr EXPON expr
+   42     | expr DIV expr
+   43     | expr MOD expr
+   44     | expr LESS expr
+   45     | expr LESSEQ expr
+   46     | expr GREAT expr
+   47     | expr GREATEQ expr
+   48     | expr NOTEQ expr
+   49     | expr EQ expr
+   50     | expr LOGIC_AND expr
+   51     | expr LOGIC_OR expr
+   52     | MINUS expr
+   53     | NUMBER
+   54     | FLOAT
+   55     | STRING
+   56     | INT_TYPE LPAREN expr RPAREN
+   57     | DOUBLE_TYPE LPAREN expr RPAREN
+   58     | STR_TYPE LPAREN expr RPAREN
+   59     | IDENT
+   60     | COLON COLON IDENT
+   61     | IDENT LPAREN opt_parm_list RPAREN
+   62     | EVAL LPAREN expr RPAREN
+   63     | COLON COLON EVAL LPAREN expr RPAREN
+   64     | READ LPAREN expr RPAREN
+   65     | LPAREN expr RPAREN
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256) 4
+ASSIGN (258) 24 25 26 28 35 36 37
+PRINT (259) 31
+PRINTLN (260) 32
+IDENT (261) 7 8 9 24 25 26 27 28 59 60 61
+STRING (262) 55
+NUMBER (263) 53
+FLOAT (264) 54
+LPAREN (265) 7 27 28 29 30 35 36 37 56 57 58 61 62 63 64 65
+RPAREN (266) 7 27 28 29 30 35 36 37 56 57 58 61 62 63 64 65
+DEBUG (267) 34
+EVAL (268) 35 36 37 62 63
+OPEN (269) 28
+CLOSE (270) 29
+READ (271) 30 64
+DEF (272) 7
+COLON (273) 7 20 21 23 25 35 60 63
+DIRECTIVE (274)
+SHEBANG (275)
+VAR (276) 26 36
+STR_TYPE (277) 58
+INT_TYPE (278) 56
+DOUBLE_TYPE (279) 57
+COMMA (280) 8 11
+IF (281) 20
+WHILE (282) 23
+END (283) 6 18 19 22
+ELSE (284) 21
+RETURN (285) 33
+LOGIC_OR (286) 51
+LOGIC_AND (287) 50
+NOTEQ (288) 48
+EQ (289) 49
+GREATEQ (290) 47
+GREAT (291) 46
+LESSEQ (292) 45
+LESS (293) 44
+MINUS (294) 39 52
+PLUS (295) 38
+MOD (296) 43
+DIV (297) 42
+MULT (298) 40
+EXPON (299) 41
+
+
+Nonterminals, with rules where they appear
+
+$accept (45)
+    on left: 0
+start (46)
+    on left: 1 2 3 4 5, on right: 0 1 2 3
+funcdef (47)
+    on left: 6, on right: 1
+prototype (48)
+    on left: 7, on right: 6
+id_list (49)
+    on left: 8 9 10, on right: 7 8
+opt_parm_list (50)
+    on left: 11 12 13, on right: 11 27 61
+stmt (51)
+    on left: 14 15 16 17, on right: 6 14 15 16 18 19 22
+selection (52)
+    on left: 18 19, on right: 3 15
+if_block (53)
+    on left: 20, on right: 18 19
+else_block (54)
+    on left: 21, on right: 19
+loop (55)
+    on left: 22, on right: 16
+loop_condition (56)
+    on left: 23, on right: 22
+line (57)
+    on left: 24 25 26 27 28 29 30 31 32 33 34 35 36 37, on right: 2
+    14
+expr (58)
+    on left: 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55
+    56 57 58 59 60 61 62 63 64 65, on right: 11 12 20 23 24 25 26 28
+    29 30 31 32 33 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+    51 52 56 57 58 62 63 64 65
+
+
+state 0
+
+    0 $accept: . start $end
+
+    error    shift, and go to state 1
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    DEF      shift, and go to state 9
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    RETURN   shift, and go to state 13
+
+    $end  reduce using rule 5 (start)
+
+    start      go to state 14
+    funcdef    go to state 15
+    prototype  go to state 16
+    selection  go to state 17
+    if_block   go to state 18
+    line       go to state 19
+
+
+state 1
+
+    4 start: error .
+
+    $default  reduce using rule 4 (start)
+
+
+state 2
+
+   31 line: PRINT . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 32
+
+
+state 3
+
+   32 line: PRINTLN . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 33
+
+
+state 4
+
+   24 line: IDENT . ASSIGN expr
+   27     | IDENT . LPAREN opt_parm_list RPAREN
+   28     | IDENT . ASSIGN OPEN LPAREN expr RPAREN
+
+    ASSIGN  shift, and go to state 34
+    LPAREN  shift, and go to state 35
+
+
+state 5
+
+   34 line: DEBUG .
+
+    $default  reduce using rule 34 (line)
+
+
+state 6
+
+   37 line: EVAL . LPAREN expr RPAREN ASSIGN expr
+
+    LPAREN  shift, and go to state 36
+
+
+state 7
+
+   29 line: CLOSE . LPAREN expr RPAREN
+
+    LPAREN  shift, and go to state 37
+
+
+state 8
+
+   30 line: READ . LPAREN expr RPAREN
+
+    LPAREN  shift, and go to state 38
+
+
+state 9
+
+    7 prototype: DEF . IDENT LPAREN id_list RPAREN COLON
+
+    IDENT  shift, and go to state 39
+
+
+state 10
+
+   25 line: COLON . COLON IDENT ASSIGN expr
+   35     | COLON . COLON EVAL LPAREN expr RPAREN ASSIGN expr
+
+    COLON  shift, and go to state 40
+
+
+state 11
+
+   26 line: VAR . IDENT ASSIGN expr
+   36     | VAR . EVAL LPAREN expr RPAREN ASSIGN expr
+
+    IDENT  shift, and go to state 41
+    EVAL   shift, and go to state 42
+
+
+state 12
+
+   20 if_block: IF . expr COLON
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 43
+
+
+state 13
+
+   33 line: RETURN . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 44
+
+
+state 14
+
+    0 $accept: start . $end
+
+    $end  shift, and go to state 45
+
+
+state 15
+
+    1 start: funcdef . start
+
+    error    shift, and go to state 1
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    DEF      shift, and go to state 9
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    RETURN   shift, and go to state 13
+
+    $end  reduce using rule 5 (start)
+
+    start      go to state 46
+    funcdef    go to state 15
+    prototype  go to state 16
+    selection  go to state 17
+    if_block   go to state 18
+    line       go to state 19
+
+
+state 16
+
+    6 funcdef: prototype . stmt END
+
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    WHILE    shift, and go to state 47
+    RETURN   shift, and go to state 13
+
+    $default  reduce using rule 17 (stmt)
+
+    stmt            go to state 48
+    selection       go to state 49
+    if_block        go to state 18
+    loop            go to state 50
+    loop_condition  go to state 51
+    line            go to state 52
+
+
+state 17
+
+    3 start: selection . start
+
+    error    shift, and go to state 1
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    DEF      shift, and go to state 9
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    RETURN   shift, and go to state 13
+
+    $end  reduce using rule 5 (start)
+
+    start      go to state 53
+    funcdef    go to state 15
+    prototype  go to state 16
+    selection  go to state 17
+    if_block   go to state 18
+    line       go to state 19
+
+
+state 18
+
+   18 selection: if_block . stmt END
+   19          | if_block . stmt else_block stmt END
+
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    WHILE    shift, and go to state 47
+    RETURN   shift, and go to state 13
+
+    $default  reduce using rule 17 (stmt)
+
+    stmt            go to state 54
+    selection       go to state 49
+    if_block        go to state 18
+    loop            go to state 50
+    loop_condition  go to state 51
+    line            go to state 52
+
+
+state 19
+
+    2 start: line . start
+
+    error    shift, and go to state 1
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    DEF      shift, and go to state 9
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    RETURN   shift, and go to state 13
+
+    $end  reduce using rule 5 (start)
+
+    start      go to state 55
+    funcdef    go to state 15
+    prototype  go to state 16
+    selection  go to state 17
+    if_block   go to state 18
+    line       go to state 19
+
+
+state 20
+
+   59 expr: IDENT .
+   61     | IDENT . LPAREN opt_parm_list RPAREN
+
+    LPAREN  shift, and go to state 56
+
+    $default  reduce using rule 59 (expr)
+
+
+state 21
+
+   55 expr: STRING .
+
+    $default  reduce using rule 55 (expr)
+
+
+state 22
+
+   53 expr: NUMBER .
+
+    $default  reduce using rule 53 (expr)
+
+
+state 23
+
+   54 expr: FLOAT .
+
+    $default  reduce using rule 54 (expr)
+
+
+state 24
+
+   65 expr: LPAREN . expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 57
+
+
+state 25
+
+   62 expr: EVAL . LPAREN expr RPAREN
+
+    LPAREN  shift, and go to state 58
+
+
+state 26
+
+   64 expr: READ . LPAREN expr RPAREN
+
+    LPAREN  shift, and go to state 59
+
+
+state 27
+
+   60 expr: COLON . COLON IDENT
+   63     | COLON . COLON EVAL LPAREN expr RPAREN
+
+    COLON  shift, and go to state 60
+
+
+state 28
+
+   58 expr: STR_TYPE . LPAREN expr RPAREN
+
+    LPAREN  shift, and go to state 61
+
+
+state 29
+
+   56 expr: INT_TYPE . LPAREN expr RPAREN
+
+    LPAREN  shift, and go to state 62
+
+
+state 30
+
+   57 expr: DOUBLE_TYPE . LPAREN expr RPAREN
+
+    LPAREN  shift, and go to state 63
+
+
+state 31
+
+   52 expr: MINUS . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 64
+
+
+state 32
+
+   31 line: PRINT expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 31 (line)
+
+
+state 33
+
+   32 line: PRINTLN expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 32 (line)
+
+
+state 34
+
+   24 line: IDENT ASSIGN . expr
+   28     | IDENT ASSIGN . OPEN LPAREN expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    OPEN         shift, and go to state 79
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 80
+
+
+state 35
+
+   27 line: IDENT LPAREN . opt_parm_list RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    $default  reduce using rule 13 (opt_parm_list)
+
+    opt_parm_list  go to state 81
+    expr           go to state 82
+
+
+state 36
+
+   37 line: EVAL LPAREN . expr RPAREN ASSIGN expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 83
+
+
+state 37
+
+   29 line: CLOSE LPAREN . expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 84
+
+
+state 38
+
+   30 line: READ LPAREN . expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 85
+
+
+state 39
+
+    7 prototype: DEF IDENT . LPAREN id_list RPAREN COLON
+
+    LPAREN  shift, and go to state 86
+
+
+state 40
+
+   25 line: COLON COLON . IDENT ASSIGN expr
+   35     | COLON COLON . EVAL LPAREN expr RPAREN ASSIGN expr
+
+    IDENT  shift, and go to state 87
+    EVAL   shift, and go to state 88
+
+
+state 41
+
+   26 line: VAR IDENT . ASSIGN expr
+
+    ASSIGN  shift, and go to state 89
+
+
+state 42
+
+   36 line: VAR EVAL . LPAREN expr RPAREN ASSIGN expr
+
+    LPAREN  shift, and go to state 90
+
+
+state 43
+
+   20 if_block: IF expr . COLON
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    COLON      shift, and go to state 91
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 44
+
+   33 line: RETURN expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 33 (line)
+
+
+state 45
+
+    0 $accept: start $end .
+
+    $default  accept
+
+
+state 46
+
+    1 start: funcdef start .
+
+    $default  reduce using rule 1 (start)
+
+
+state 47
+
+   23 loop_condition: WHILE . expr COLON
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 92
+
+
+state 48
+
+    6 funcdef: prototype stmt . END
+
+    END  shift, and go to state 93
+
+
+state 49
+
+   15 stmt: selection . stmt
+
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    WHILE    shift, and go to state 47
+    RETURN   shift, and go to state 13
+
+    $default  reduce using rule 17 (stmt)
+
+    stmt            go to state 94
+    selection       go to state 49
+    if_block        go to state 18
+    loop            go to state 50
+    loop_condition  go to state 51
+    line            go to state 52
+
+
+state 50
+
+   16 stmt: loop . stmt
+
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    WHILE    shift, and go to state 47
+    RETURN   shift, and go to state 13
+
+    $default  reduce using rule 17 (stmt)
+
+    stmt            go to state 95
+    selection       go to state 49
+    if_block        go to state 18
+    loop            go to state 50
+    loop_condition  go to state 51
+    line            go to state 52
+
+
+state 51
+
+   22 loop: loop_condition . stmt END
+
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    WHILE    shift, and go to state 47
+    RETURN   shift, and go to state 13
+
+    $default  reduce using rule 17 (stmt)
+
+    stmt            go to state 96
+    selection       go to state 49
+    if_block        go to state 18
+    loop            go to state 50
+    loop_condition  go to state 51
+    line            go to state 52
+
+
+state 52
+
+   14 stmt: line . stmt
+
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    WHILE    shift, and go to state 47
+    RETURN   shift, and go to state 13
+
+    $default  reduce using rule 17 (stmt)
+
+    stmt            go to state 97
+    selection       go to state 49
+    if_block        go to state 18
+    loop            go to state 50
+    loop_condition  go to state 51
+    line            go to state 52
+
+
+state 53
+
+    3 start: selection start .
+
+    $default  reduce using rule 3 (start)
+
+
+state 54
+
+   18 selection: if_block stmt . END
+   19          | if_block stmt . else_block stmt END
+
+    END   shift, and go to state 98
+    ELSE  shift, and go to state 99
+
+    else_block  go to state 100
+
+
+state 55
+
+    2 start: line start .
+
+    $default  reduce using rule 2 (start)
+
+
+state 56
+
+   61 expr: IDENT LPAREN . opt_parm_list RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    $default  reduce using rule 13 (opt_parm_list)
+
+    opt_parm_list  go to state 101
+    expr           go to state 82
+
+
+state 57
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+   65     | LPAREN expr . RPAREN
+
+    RPAREN     shift, and go to state 102
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 58
+
+   62 expr: EVAL LPAREN . expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 103
+
+
+state 59
+
+   64 expr: READ LPAREN . expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 104
+
+
+state 60
+
+   60 expr: COLON COLON . IDENT
+   63     | COLON COLON . EVAL LPAREN expr RPAREN
+
+    IDENT  shift, and go to state 105
+    EVAL   shift, and go to state 106
+
+
+state 61
+
+   58 expr: STR_TYPE LPAREN . expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 107
+
+
+state 62
+
+   56 expr: INT_TYPE LPAREN . expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 108
+
+
+state 63
+
+   57 expr: DOUBLE_TYPE LPAREN . expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 109
+
+
+state 64
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+   52     | MINUS expr .
+
+    MOD    shift, and go to state 75
+    DIV    shift, and go to state 76
+    MULT   shift, and go to state 77
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 52 (expr)
+
+
+state 65
+
+   51 expr: expr LOGIC_OR . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 110
+
+
+state 66
+
+   50 expr: expr LOGIC_AND . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 111
+
+
+state 67
+
+   48 expr: expr NOTEQ . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 112
+
+
+state 68
+
+   49 expr: expr EQ . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 113
+
+
+state 69
+
+   47 expr: expr GREATEQ . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 114
+
+
+state 70
+
+   46 expr: expr GREAT . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 115
+
+
+state 71
+
+   45 expr: expr LESSEQ . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 116
+
+
+state 72
+
+   44 expr: expr LESS . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 117
+
+
+state 73
+
+   39 expr: expr MINUS . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 118
+
+
+state 74
+
+   38 expr: expr PLUS . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 119
+
+
+state 75
+
+   43 expr: expr MOD . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 120
+
+
+state 76
+
+   42 expr: expr DIV . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 121
+
+
+state 77
+
+   40 expr: expr MULT . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 122
+
+
+state 78
+
+   41 expr: expr EXPON . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 123
+
+
+state 79
+
+   28 line: IDENT ASSIGN OPEN . LPAREN expr RPAREN
+
+    LPAREN  shift, and go to state 124
+
+
+state 80
+
+   24 line: IDENT ASSIGN expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 24 (line)
+
+
+state 81
+
+   11 opt_parm_list: opt_parm_list . COMMA expr
+   27 line: IDENT LPAREN opt_parm_list . RPAREN
+
+    RPAREN  shift, and go to state 125
+    COMMA   shift, and go to state 126
+
+
+state 82
+
+   12 opt_parm_list: expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 12 (opt_parm_list)
+
+
+state 83
+
+   37 line: EVAL LPAREN expr . RPAREN ASSIGN expr
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    RPAREN     shift, and go to state 127
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 84
+
+   29 line: CLOSE LPAREN expr . RPAREN
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    RPAREN     shift, and go to state 128
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 85
+
+   30 line: READ LPAREN expr . RPAREN
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    RPAREN     shift, and go to state 129
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 86
+
+    7 prototype: DEF IDENT LPAREN . id_list RPAREN COLON
+
+    IDENT  shift, and go to state 130
+
+    $default  reduce using rule 10 (id_list)
+
+    id_list  go to state 131
+
+
+state 87
+
+   25 line: COLON COLON IDENT . ASSIGN expr
+
+    ASSIGN  shift, and go to state 132
+
+
+state 88
+
+   35 line: COLON COLON EVAL . LPAREN expr RPAREN ASSIGN expr
+
+    LPAREN  shift, and go to state 133
+
+
+state 89
+
+   26 line: VAR IDENT ASSIGN . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 134
+
+
+state 90
+
+   36 line: VAR EVAL LPAREN . expr RPAREN ASSIGN expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 135
+
+
+state 91
+
+   20 if_block: IF expr COLON .
+
+    $default  reduce using rule 20 (if_block)
+
+
+state 92
+
+   23 loop_condition: WHILE expr . COLON
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    COLON      shift, and go to state 136
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 93
+
+    6 funcdef: prototype stmt END .
+
+    $default  reduce using rule 6 (funcdef)
+
+
+state 94
+
+   15 stmt: selection stmt .
+
+    $default  reduce using rule 15 (stmt)
+
+
+state 95
+
+   16 stmt: loop stmt .
+
+    $default  reduce using rule 16 (stmt)
+
+
+state 96
+
+   22 loop: loop_condition stmt . END
+
+    END  shift, and go to state 137
+
+
+state 97
+
+   14 stmt: line stmt .
+
+    $default  reduce using rule 14 (stmt)
+
+
+state 98
+
+   18 selection: if_block stmt END .
+
+    $default  reduce using rule 18 (selection)
+
+
+state 99
+
+   21 else_block: ELSE . COLON
+
+    COLON  shift, and go to state 138
+
+
+state 100
+
+   19 selection: if_block stmt else_block . stmt END
+
+    PRINT    shift, and go to state 2
+    PRINTLN  shift, and go to state 3
+    IDENT    shift, and go to state 4
+    DEBUG    shift, and go to state 5
+    EVAL     shift, and go to state 6
+    CLOSE    shift, and go to state 7
+    READ     shift, and go to state 8
+    COLON    shift, and go to state 10
+    VAR      shift, and go to state 11
+    IF       shift, and go to state 12
+    WHILE    shift, and go to state 47
+    RETURN   shift, and go to state 13
+
+    $default  reduce using rule 17 (stmt)
+
+    stmt            go to state 139
+    selection       go to state 49
+    if_block        go to state 18
+    loop            go to state 50
+    loop_condition  go to state 51
+    line            go to state 52
+
+
+state 101
+
+   11 opt_parm_list: opt_parm_list . COMMA expr
+   61 expr: IDENT LPAREN opt_parm_list . RPAREN
+
+    RPAREN  shift, and go to state 140
+    COMMA   shift, and go to state 126
+
+
+state 102
+
+   65 expr: LPAREN expr RPAREN .
+
+    $default  reduce using rule 65 (expr)
+
+
+state 103
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+   62     | EVAL LPAREN expr . RPAREN
+
+    RPAREN     shift, and go to state 141
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 104
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+   64     | READ LPAREN expr . RPAREN
+
+    RPAREN     shift, and go to state 142
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 105
+
+   60 expr: COLON COLON IDENT .
+
+    $default  reduce using rule 60 (expr)
+
+
+state 106
+
+   63 expr: COLON COLON EVAL . LPAREN expr RPAREN
+
+    LPAREN  shift, and go to state 143
+
+
+state 107
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+   58     | STR_TYPE LPAREN expr . RPAREN
+
+    RPAREN     shift, and go to state 144
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 108
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+   56     | INT_TYPE LPAREN expr . RPAREN
+
+    RPAREN     shift, and go to state 145
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 109
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+   57     | DOUBLE_TYPE LPAREN expr . RPAREN
+
+    RPAREN     shift, and go to state 146
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 110
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+   51     | expr LOGIC_OR expr .
+
+    NOTEQ    shift, and go to state 67
+    EQ       shift, and go to state 68
+    GREATEQ  shift, and go to state 69
+    GREAT    shift, and go to state 70
+    LESSEQ   shift, and go to state 71
+    LESS     shift, and go to state 72
+    MINUS    shift, and go to state 73
+    PLUS     shift, and go to state 74
+    MOD      shift, and go to state 75
+    DIV      shift, and go to state 76
+    MULT     shift, and go to state 77
+    EXPON    shift, and go to state 78
+
+    $default  reduce using rule 51 (expr)
+
+
+state 111
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   50     | expr LOGIC_AND expr .
+   51     | expr . LOGIC_OR expr
+
+    NOTEQ    shift, and go to state 67
+    EQ       shift, and go to state 68
+    GREATEQ  shift, and go to state 69
+    GREAT    shift, and go to state 70
+    LESSEQ   shift, and go to state 71
+    LESS     shift, and go to state 72
+    MINUS    shift, and go to state 73
+    PLUS     shift, and go to state 74
+    MOD      shift, and go to state 75
+    DIV      shift, and go to state 76
+    MULT     shift, and go to state 77
+    EXPON    shift, and go to state 78
+
+    $default  reduce using rule 50 (expr)
+
+
+state 112
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   48     | expr NOTEQ expr .
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    MINUS  shift, and go to state 73
+    PLUS   shift, and go to state 74
+    MOD    shift, and go to state 75
+    DIV    shift, and go to state 76
+    MULT   shift, and go to state 77
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 48 (expr)
+
+
+state 113
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   49     | expr EQ expr .
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    MINUS  shift, and go to state 73
+    PLUS   shift, and go to state 74
+    MOD    shift, and go to state 75
+    DIV    shift, and go to state 76
+    MULT   shift, and go to state 77
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 49 (expr)
+
+
+state 114
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   47     | expr GREATEQ expr .
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    MINUS  shift, and go to state 73
+    PLUS   shift, and go to state 74
+    MOD    shift, and go to state 75
+    DIV    shift, and go to state 76
+    MULT   shift, and go to state 77
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 47 (expr)
+
+
+state 115
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   46     | expr GREAT expr .
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    MINUS  shift, and go to state 73
+    PLUS   shift, and go to state 74
+    MOD    shift, and go to state 75
+    DIV    shift, and go to state 76
+    MULT   shift, and go to state 77
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 46 (expr)
+
+
+state 116
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   45     | expr LESSEQ expr .
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    MINUS  shift, and go to state 73
+    PLUS   shift, and go to state 74
+    MOD    shift, and go to state 75
+    DIV    shift, and go to state 76
+    MULT   shift, and go to state 77
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 45 (expr)
+
+
+state 117
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   44     | expr LESS expr .
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    MINUS  shift, and go to state 73
+    PLUS   shift, and go to state 74
+    MOD    shift, and go to state 75
+    DIV    shift, and go to state 76
+    MULT   shift, and go to state 77
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 44 (expr)
+
+
+state 118
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   39     | expr MINUS expr .
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    MOD    shift, and go to state 75
+    DIV    shift, and go to state 76
+    MULT   shift, and go to state 77
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 39 (expr)
+
+
+state 119
+
+   38 expr: expr . PLUS expr
+   38     | expr PLUS expr .
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    MOD    shift, and go to state 75
+    DIV    shift, and go to state 76
+    MULT   shift, and go to state 77
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 38 (expr)
+
+
+state 120
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   43     | expr MOD expr .
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 43 (expr)
+
+
+state 121
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   42     | expr DIV expr .
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 42 (expr)
+
+
+state 122
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   40     | expr MULT expr .
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 40 (expr)
+
+
+state 123
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   41     | expr EXPON expr .
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    EXPON  shift, and go to state 78
+
+    $default  reduce using rule 41 (expr)
+
+
+state 124
+
+   28 line: IDENT ASSIGN OPEN LPAREN . expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 147
+
+
+state 125
+
+   27 line: IDENT LPAREN opt_parm_list RPAREN .
+
+    $default  reduce using rule 27 (line)
+
+
+state 126
+
+   11 opt_parm_list: opt_parm_list COMMA . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 148
+
+
+state 127
+
+   37 line: EVAL LPAREN expr RPAREN . ASSIGN expr
+
+    ASSIGN  shift, and go to state 149
+
+
+state 128
+
+   29 line: CLOSE LPAREN expr RPAREN .
+
+    $default  reduce using rule 29 (line)
+
+
+state 129
+
+   30 line: READ LPAREN expr RPAREN .
+
+    $default  reduce using rule 30 (line)
+
+
+state 130
+
+    9 id_list: IDENT .
+
+    $default  reduce using rule 9 (id_list)
+
+
+state 131
+
+    7 prototype: DEF IDENT LPAREN id_list . RPAREN COLON
+    8 id_list: id_list . COMMA IDENT
+
+    RPAREN  shift, and go to state 150
+    COMMA   shift, and go to state 151
+
+
+state 132
+
+   25 line: COLON COLON IDENT ASSIGN . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 152
+
+
+state 133
+
+   35 line: COLON COLON EVAL LPAREN . expr RPAREN ASSIGN expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 153
+
+
+state 134
+
+   26 line: VAR IDENT ASSIGN expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 26 (line)
+
+
+state 135
+
+   36 line: VAR EVAL LPAREN expr . RPAREN ASSIGN expr
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    RPAREN     shift, and go to state 154
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 136
+
+   23 loop_condition: WHILE expr COLON .
+
+    $default  reduce using rule 23 (loop_condition)
+
+
+state 137
+
+   22 loop: loop_condition stmt END .
+
+    $default  reduce using rule 22 (loop)
+
+
+state 138
+
+   21 else_block: ELSE COLON .
+
+    $default  reduce using rule 21 (else_block)
+
+
+state 139
+
+   19 selection: if_block stmt else_block stmt . END
+
+    END  shift, and go to state 155
+
+
+state 140
+
+   61 expr: IDENT LPAREN opt_parm_list RPAREN .
+
+    $default  reduce using rule 61 (expr)
+
+
+state 141
+
+   62 expr: EVAL LPAREN expr RPAREN .
+
+    $default  reduce using rule 62 (expr)
+
+
+state 142
+
+   64 expr: READ LPAREN expr RPAREN .
+
+    $default  reduce using rule 64 (expr)
+
+
+state 143
+
+   63 expr: COLON COLON EVAL LPAREN . expr RPAREN
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 156
+
+
+state 144
+
+   58 expr: STR_TYPE LPAREN expr RPAREN .
+
+    $default  reduce using rule 58 (expr)
+
+
+state 145
+
+   56 expr: INT_TYPE LPAREN expr RPAREN .
+
+    $default  reduce using rule 56 (expr)
+
+
+state 146
+
+   57 expr: DOUBLE_TYPE LPAREN expr RPAREN .
+
+    $default  reduce using rule 57 (expr)
+
+
+state 147
+
+   28 line: IDENT ASSIGN OPEN LPAREN expr . RPAREN
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    RPAREN     shift, and go to state 157
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 148
+
+   11 opt_parm_list: opt_parm_list COMMA expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 11 (opt_parm_list)
+
+
+state 149
+
+   37 line: EVAL LPAREN expr RPAREN ASSIGN . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 158
+
+
+state 150
+
+    7 prototype: DEF IDENT LPAREN id_list RPAREN . COLON
+
+    COLON  shift, and go to state 159
+
+
+state 151
+
+    8 id_list: id_list COMMA . IDENT
+
+    IDENT  shift, and go to state 160
+
+
+state 152
+
+   25 line: COLON COLON IDENT ASSIGN expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 25 (line)
+
+
+state 153
+
+   35 line: COLON COLON EVAL LPAREN expr . RPAREN ASSIGN expr
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    RPAREN     shift, and go to state 161
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 154
+
+   36 line: VAR EVAL LPAREN expr RPAREN . ASSIGN expr
+
+    ASSIGN  shift, and go to state 162
+
+
+state 155
+
+   19 selection: if_block stmt else_block stmt END .
+
+    $default  reduce using rule 19 (selection)
+
+
+state 156
+
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+   63     | COLON COLON EVAL LPAREN expr . RPAREN
+
+    RPAREN     shift, and go to state 163
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+
+state 157
+
+   28 line: IDENT ASSIGN OPEN LPAREN expr RPAREN .
+
+    $default  reduce using rule 28 (line)
+
+
+state 158
+
+   37 line: EVAL LPAREN expr RPAREN ASSIGN expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 37 (line)
+
+
+state 159
+
+    7 prototype: DEF IDENT LPAREN id_list RPAREN COLON .
+
+    $default  reduce using rule 7 (prototype)
+
+
+state 160
+
+    8 id_list: id_list COMMA IDENT .
+
+    $default  reduce using rule 8 (id_list)
+
+
+state 161
+
+   35 line: COLON COLON EVAL LPAREN expr RPAREN . ASSIGN expr
+
+    ASSIGN  shift, and go to state 164
+
+
+state 162
+
+   36 line: VAR EVAL LPAREN expr RPAREN ASSIGN . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 165
+
+
+state 163
+
+   63 expr: COLON COLON EVAL LPAREN expr RPAREN .
+
+    $default  reduce using rule 63 (expr)
+
+
+state 164
+
+   35 line: COLON COLON EVAL LPAREN expr RPAREN ASSIGN . expr
+
+    IDENT        shift, and go to state 20
+    STRING       shift, and go to state 21
+    NUMBER       shift, and go to state 22
+    FLOAT        shift, and go to state 23
+    LPAREN       shift, and go to state 24
+    EVAL         shift, and go to state 25
+    READ         shift, and go to state 26
+    COLON        shift, and go to state 27
+    STR_TYPE     shift, and go to state 28
+    INT_TYPE     shift, and go to state 29
+    DOUBLE_TYPE  shift, and go to state 30
+    MINUS        shift, and go to state 31
+
+    expr  go to state 166
+
+
+state 165
+
+   36 line: VAR EVAL LPAREN expr RPAREN ASSIGN expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 36 (line)
+
+
+state 166
+
+   35 line: COLON COLON EVAL LPAREN expr RPAREN ASSIGN expr .
+   38 expr: expr . PLUS expr
+   39     | expr . MINUS expr
+   40     | expr . MULT expr
+   41     | expr . EXPON expr
+   42     | expr . DIV expr
+   43     | expr . MOD expr
+   44     | expr . LESS expr
+   45     | expr . LESSEQ expr
+   46     | expr . GREAT expr
+   47     | expr . GREATEQ expr
+   48     | expr . NOTEQ expr
+   49     | expr . EQ expr
+   50     | expr . LOGIC_AND expr
+   51     | expr . LOGIC_OR expr
+
+    LOGIC_OR   shift, and go to state 65
+    LOGIC_AND  shift, and go to state 66
+    NOTEQ      shift, and go to state 67
+    EQ         shift, and go to state 68
+    GREATEQ    shift, and go to state 69
+    GREAT      shift, and go to state 70
+    LESSEQ     shift, and go to state 71
+    LESS       shift, and go to state 72
+    MINUS      shift, and go to state 73
+    PLUS       shift, and go to state 74
+    MOD        shift, and go to state 75
+    DIV        shift, and go to state 76
+    MULT       shift, and go to state 77
+    EXPON      shift, and go to state 78
+
+    $default  reduce using rule 35 (line)
