@@ -87,38 +87,54 @@ Strings and some String operations are supported. Strings are defined as a seque
 
 #### Define
 ##### Input
+```python
    x = "cat"
    print x
+```
 
 ##### Output
+```
    cat
+```
 
 #### Append
 ##### Input
+```python
    x = "cat"
    x = x + "dog"
+```
 
 ##### Output
+```
    catdog
+```
 
 #### Multi-Append
 ##### Input
+```python
    x = "cat"
    x = x * 3 OR x = 3 * x
+```
 
 ##### Output
+```
    catcatcat
+```
 
 #### Control Character hack
 ##### Input
+```python
    print "cat
    dog
    fish"
+```
 
 ##### Output
+```
    cat
    dog
    fish
+```
 
 Typecasting
 ------------
@@ -126,27 +142,39 @@ You can typecast from any type to another.
 
 Example 1:
 ##### Input
+```python
    x = 3.4
    print int(x)
-   
+```
+
 ##### Output
+```
    3
+```
 
 Example 2:
 ##### Input
+```python
    x = 3
    print double(x)
+```
 
 ##### Output
+```
    3.00000
+```
 
 Example 3:
 ##### Input
+```python
    x = 1
    print "There is " + str(x) + " cat"
+```
 
 ##### Output
+```
    There is 1 cat
+```
 
 Functions
 ----------   
@@ -158,10 +186,14 @@ Exceptions have been added for more useful error handling (hopefully).
 
 Example:
 ##### Input
+```python
    x = "cat" + 3
+```
 
 ##### Output
+```
    console:1: error: invalid operands of types 'string' and 'int' to operator '+'
+```
 
 Scope levels
 -------------
@@ -169,6 +201,7 @@ Operators have been added to explicitly specify scope. Use (::) to specify globa
 
 Example:
 ##### Input
+```python
    def foo():
       ::x = 3.14
       var x = 15
@@ -178,10 +211,13 @@ Example:
 
    foo()
    print x
+```
 
 ##### Output
+```
    15
    3.14
+```
 
 Phase 2 Features: testsuite/phase_two
 ======================================
@@ -203,16 +239,19 @@ File Input
 Input can be read from a file. Use "<id> = open(<filename>)" to open <filename> and create file stream <id> to open. Read by calling "read(<id>)". Each successive call to read will advance the file stream. Close with "close(<id>)"
 Example:
 
+```python
    test = open("cat_data")
    x = read(test)
    print read(test)
    close(test)
+```
 
 eval(*expr*)
 -------------
 Use eval with an expression to turn that expression into a Identifier name. This can be used to approximate lists. Scope operators will also work with eval. If a non-string Literal is passed to eval, it will be reinterpreted as a string Example:
 
 ##### Input
+```python
    i = 0
    while i < 5:
       name = "x"+str(i)
@@ -221,8 +260,10 @@ Use eval with an expression to turn that expression into a Identifier name. This
    end
 
    __debug__
+```
 
 ##### Output
+```
    @ -- Symtab -- @
      x0 --> 0
      x1 --> 1
@@ -231,6 +272,7 @@ Use eval with an expression to turn that expression into a Identifier name. This
      x4 --> 4
    @ ------------ @
    ...
+```
 
 Accepting/Failing
 ------------------
