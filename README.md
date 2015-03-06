@@ -47,22 +47,18 @@ Statement
 ----------
 Each line of code is translated into a Statement of some kind. This is how functions and the program is represented in memory. All Statements keep a pointer to the Program they are defined in, while some also keep a pointer to the Function they are defined in. When a Statement is evaluated, it evaluates whatever parse tree is associated with it. There are two Statements to make special note of:
 
-   ```
-   ### FunctionCall
+###   FunctionCall
    Statement defining a function call. This doesn't keep a parse tree, only a function name as a std::string and a Program* ptr. This Statement discards the return value for the function.
 
-   ### ReturnStatement
-   Statement defining a function's return statement. Once a return value is generated, it is placed in within the function's storage space and the function is signalled to begin returning through its blocks.
-   ```
+###   ReturnStatement
+Statement defining a function's return statement. Once a return value is generated, it is placed in within the function's storage space and the function is signalled to begin returning through its blocks.
 
 Function
 ---------
 Represents a function in memory. A Function contains a Block, a ParameterList and storage for a return value. 
 
-   ```
-   ### eval()
-   eval takes a list of Literals as an argument. These are used to match against the parameter list. When eval is called, the function requests its block to initialize a new instance of itself. The function then matches parameter names to the Literals passed into eval. These are stored into the block's new instance's Symtab before executing the block's statements.
-   ```
+###   eval()
+eval takes a list of Literals as an argument. These are used to match against the parameter list. When eval is called, the function requests its block to initialize a new instance of itself. The function then matches parameter names to the Literals passed into eval. These are stored into the block's new instance's Symtab before executing the block's statements.
 
 Program
 --------
