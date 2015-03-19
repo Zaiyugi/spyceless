@@ -39,7 +39,7 @@ Stores primitive datatypes. Consists of two std::strings, one for type informati
 
 Identifier
 -----------
-Associated a std::string name with a Literal. Variables are created using this class.
+Associates a std::string name with a Literal. Variables are created using this class.
 
 Ast
 ----
